@@ -1,14 +1,26 @@
 <?php
 /**
+ * Copyright (C) <2017>  <José Carlos Aguilar Vásquez>
  * Firmado para Costa Rica xades EPES
  * Este archivo contiene el proceso de firma en PHP de acuerdo a las especificaciones de Hacienda
- * @version 1.0.0
- * @author  José Carlos Aguilar Vásquez carlos_a40@hotmail.com   jcaguilar40@gmail.com
- * Favor si  este archivo llega a tu pc sin consentimiento expreso del autor infringirias en derecho de autor
- * No podrá alterar ninguna parte del programa
- * comunicate por correo ya que hacer esta libreria me demando esfuerzo, investigación y po los tanto creo merecer una colaborción ya que de esto vivo
- 
- */
+ * José Carlos Aguilar Vásquez jcaguilar40@gmail.com
+ * Donaciones vía Paypal a carlos_a40@hotmail.com
+ *
+ * LICENCIA AGPL
+ * 
+ *  This program is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU Affero General Public License as published
+ *  by the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ * 
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU Affero General Public License for more details.
+ *
+ *  You should have received a copy of the GNU Affero General Public License
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ **/
 class Firmadocr {
   const POLITICA_FIRMA = array(
     "name" 		=> "",
@@ -33,7 +45,7 @@ class Firmadocr {
   
    
   
-  public function firmar($certificadop12, $clavecertificado,$xmlsinfirma,$xmlfirmado,$tipodoc) {
+  public function firmar($certificadop12, $clavecertificado,$xmlsinfirma,$tipodoc) {
 	if (!$pfx = file_get_contents($certificadop12)) {
 		echo "Error: No se puede leer el fichero del certificado o no existe en la ruta especificada\n";
 		exit;
@@ -60,9 +72,9 @@ class Firmadocr {
 	$this->SignedProperties	= "SignedProperties-".$this->signatureID;
 
     $this->tipoDoc = $tipodoc;
-	$xml1 = file_get_contents($xmlsinfirma);
+	$xml1 = base64_decode($xmlsinfirma);
 	$xml1 = $this->insertaFirma($xml1);
-	return file_put_contents($xmlfirmado, $xml1);
+	return base64_encode($xml1);
   }
   /**
    * Función que Inserta la firma e
